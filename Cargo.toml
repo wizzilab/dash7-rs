@@ -1,5 +1,5 @@
 [package]
-name = "dash7-rs"
+name = "dash7"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,5 +7,4 @@ edition = "2021"
 
 [dependencies]
 packed_struct = "0.10"
-num_enum = "0.5"
 hex = "0.4"
