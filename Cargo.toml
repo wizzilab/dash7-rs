@@ -1,0 +1,11 @@
+[package]
+name = "dash7-rs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+packed_struct = "0.10"
+num_enum = "0.5"
+hex = "0.4"
