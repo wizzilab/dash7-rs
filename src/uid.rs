@@ -4,9 +4,13 @@ use packed_struct::{prelude::*, PackingResult};
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub struct Uid(u64);
 
+const _DEFAULT_UID_U64: u64 = 0xDEADBEEF8BADF00D;
+const _DEFAULT_UID_SLICE: [u8; 8] = [0xDE, 0xAD, 0xBE, 0xEF, 0x8B, 0xAD, 0xF0, 0x0D];
+const _DEFAULT_UID_STR: &str = "DEADBEEF8BADF00D";
+
 impl Default for Uid {
     fn default() -> Self {
-        Self(0xDEADBEEF8BADF00D)
+        Self(_DEFAULT_UID_U64)
     }
 }
 
@@ -48,6 +52,18 @@ impl From<i64> for Uid {
     }
 }
 
+impl Into<u64> for Uid {
+    fn into(self) -> u64 {
+        self.0
+    }
+}
+
+impl Into<i64> for Uid {
+    fn into(self) -> i64 {
+        self.0 as i64
+    }
+}
+
 impl std::fmt::Display for Uid {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{:016X}", self.0)
@@ -59,26 +75,23 @@ pub mod test {
     #![allow(clippy::panic, clippy::unwrap_used)]
     use super::*;
 
-    const DEFAULT_UID_SLICE: [u8; 8] = [0xDE, 0xAD, 0xBE, 0xEF, 0x8B, 0xAD, 0xF0, 0x0D];
-    const DEFAULT_UID_STR: &str = "DEADBEEF8BADF00D";
-
     #[test]
     fn test_try_from() {
-        assert_eq!(Uid::default(), Uid::try_from(DEFAULT_UID_STR).unwrap());
+        assert_eq!(Uid::default(), Uid::try_from(_DEFAULT_UID_STR).unwrap());
     }
 
     #[test]
     fn test_format() {
-        assert_eq!(DEFAULT_UID_STR, format!("{}", Uid::default()));
+        assert_eq!(_DEFAULT_UID_STR, format!("{}", Uid::default()));
     }
 
     #[test]
     fn test_pack() {
-        assert_eq!(DEFAULT_UID_SLICE, Uid::default().pack().unwrap());
+        assert_eq!(_DEFAULT_UID_SLICE, Uid::default().pack().unwrap());
     }
 
     #[test]
     fn test_unpack() {
-        assert_eq!(Uid::default(), Uid::unpack(&DEFAULT_UID_SLICE).unwrap());
+        assert_eq!(Uid::default(), Uid::unpack(&_DEFAULT_UID_SLICE).unwrap());
     }
 }
